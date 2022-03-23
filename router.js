@@ -18,8 +18,8 @@ router.post("/home", async (req, res) => {
 			if (hashedPass) {
 				req.session.user = req.body.user
 				res.status(201).redirect("home")
-			} else res.status(401).redirect("/Invalid")
-		} else res.status(401).redirect("/Invalid")
+			} else res.status(401).redirect("/?error=Invalid")
+		} else res.status(401).redirect("/?error=Invalid")
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -50,11 +50,11 @@ router.get("/logout", (req, res) => {
 	}
 })
 
-router.get("/register/:err?", (req, res) => {
+router.get("/register", (req, res) => {
 	try {
-		if (req.params.error) res.status(400)
+		if (req.query.error) res.status(400)
 		else res.status(200)
-		res.render("register", { duplicateError: req.params.err })
+		res.render("register", { duplicateError: req.query.err })
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -74,12 +74,10 @@ router.post("/register", async (req, res) => {
 		return res.status(200).send({ result: "redirect", url: "/" })
 	} catch (err) {
 		console.log(err.message)
-		return res
-			.status(200)
-			.send({
-				result: "redirect",
-				url: "/route/register/User already exists!",
-			})
+		return res.status(200).send({
+			result: "redirect",
+			url: "/route/register/?err=User already exists!",
+		})
 	}
 })
 
@@ -93,7 +91,7 @@ router.post("/adminPanel", async (req, res) => {
 			req.session.admin = req.body.admin
 			res.status(200).redirect("/route/adminPanel")
 		} else {
-			res.status(401).redirect("/admin/Invalid")
+			res.status(401).redirect("/admin/?error=Invalid")
 		}
 	} catch (err) {
 		console.log(err.message)
@@ -144,12 +142,12 @@ router.get("/search", async (req, res) => {
 	}
 })
 
-router.get("/addUser/:err?", (req, res) => {
+router.get("/addUser?", (req, res) => {
 	try {
 		if (req.session.admin) {
-			if (req.params.error) res.status(400)
+			if (req.query.err) res.status(400)
 			else res.status(200)
-			res.render("addUser", { duplicateError: req.params.err })
+			res.render("addUser", { duplicateError: req.query.err })
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
@@ -174,20 +172,18 @@ router.post("/addUser", async (req, res) => {
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
-		return res
-			.status(200)
-			.send({
-				result: "redirect",
-				url: "/route/addUser/User already exists",
-			})
+		return res.status(200).send({
+			result: "redirect",
+			url: "/route/addUser/?err=User already exists",
+		})
 	}
 })
 
-router.get("/modify/:id", async (req, res) => {
+router.get("/modify", async (req, res) => {
 	try {
 		if (req.session.admin) {
-			let user = await userModel.find({ _id: req.params.id })
-			res.render("updateUser", { user: user })
+			let user = await userModel.find({ _id: req.query.id })
+			res.render("updateUser", { user: user , error: req.query.err })
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
@@ -211,6 +207,10 @@ router.put("/modify", async (req, res) => {
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
+		return res.status(200).send({
+			result: "redirect",
+			url: `/route/modify/?id=${req.body._id}&err=Username already exists!`,
+		})
 	}
 })
 

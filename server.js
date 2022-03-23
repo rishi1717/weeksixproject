@@ -39,21 +39,21 @@ app.use("/route", router)
 
 app.set("view engine", "ejs")
 
-app.get("/admin/:error?", (req, res) => {
+app.get("/admin", (req, res) => {
 	try {
-		if (req.params.error) res.status(301)
+		if (req.query.error) res.status(301)
 		else res.status(200)
-		res.render("adminLogin", { error: req.params.error })
+		res.render("adminLogin", { error: req.query.error })
 	} catch (err) {
 		console.log(err.message)
 	}
 })
 
-app.get("/:error?", (req, res) => {
+app.get("/", (req, res) => {
 	try {
-		if (req.params.error) res.status(301)
+		if (req.query.error) res.status(301)
 		else res.status(200)
-		res.render("userLogin", { error: req.params.error })
+		res.render("userLogin", { error: req.query.error })
 	} catch (err) {
 		console.log(err.message)
 	}

@@ -35,7 +35,7 @@
         <%for(let i =0 ; i<len; i++){ %>
         <tr><td><%= users[i]._id %></td><td><%= users[i].userName %></td><td><%= users[i].name %></td><td><%= users[i].email %></td>
           <td class="text-center">
-          <a href="/route/modify/<%= users[i]._id %>" class="btn btn-outline-warning btn-sm">^</a>
+          <a href="/route/modify/?id=<%= users[i]._id %>" class="btn btn-outline-warning btn-sm">^</a>
           </td>
           <td class="text-center">
             <button value="<%= users[i]._id %>" onclick="deleteUser(value)" class="btn btn-outline-danger btn-sm">X</button>

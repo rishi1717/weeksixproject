@@ -9,7 +9,7 @@
         </div>
         <div class="modal-body">
           <form id="submit-form" action="">
-              <p id="duplicateError"></p>
+              <p class="text-center py-2 text-danger"><%= error %></p>
             <div class="mb-2">
               <label for="_id" class="col-form-label">User Id:</label>
               <input type="text" class="form-control" id="_id" name="_id" value="<%= user[0]._id %>" readonly>
