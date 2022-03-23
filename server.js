@@ -44,9 +44,10 @@ app.set("view engine", "ejs")
 
 app.get("/admin", (req, res) => {
 	try {
-		if (req.query.error) res.status(301)
+		let err = req.flash('error')
+		if (err) res.status(301)
 		else res.status(200)
-		res.render("adminLogin", { error: req.query.error })
+		res.render("adminLogin", { error: err })
 	} catch (err) {
 		console.log(err.message)
 	}

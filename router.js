@@ -52,9 +52,10 @@ router.get("/logout", (req, res) => {
 
 router.get("/register", (req, res) => {
 	try {
-		if (req.query.error) res.status(400)
+		let err = req.flash("error")
+		if (err) res.status(400)
 		else res.status(200)
-		res.render("register", { duplicateError: req.query.err })
+		res.render("register", { duplicateError: err })
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -71,7 +72,7 @@ router.post("/register", async (req, res) => {
 				email: req.body.email,
 			},
 		])
-		req.flash('message',"User added")
+		req.flash("message", "User added")
 		return res.status(200).send({ result: "redirect", url: "/" })
 	} catch (err) {
 		console.log(err.message)
@@ -93,7 +94,8 @@ router.post("/adminPanel", async (req, res) => {
 			req.session.admin = req.body.admin
 			res.status(200).redirect("/route/adminPanel")
 		} else {
-			res.status(401).redirect("/admin/?error=Invalid")
+			req.flash("error", "Invalid")
+			res.status(401).redirect("/admin")
 		}
 	} catch (err) {
 		console.log(err.message)
@@ -112,6 +114,7 @@ router.get("/adminPanel", async (req, res) => {
 				users: users,
 				len: len,
 				blogNo: blogNo,
+				success: req.flash("message"),
 			})
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
@@ -144,12 +147,13 @@ router.get("/search", async (req, res) => {
 	}
 })
 
-router.get("/addUser?", (req, res) => {
+router.get("/addUser", (req, res) => {
 	try {
 		if (req.session.admin) {
-			if (req.query.err) res.status(400)
+			let err = req.flash("error")
+			if (err) res.status(400)
 			else res.status(200)
-			res.render("addUser", { duplicateError: req.query.err })
+			res.render("addUser", { duplicateError: err })
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
@@ -168,15 +172,17 @@ router.post("/addUser", async (req, res) => {
 					email: req.body.email,
 				},
 			])
+			req.flash("message", "User added")
 			return res
 				.status(200)
 				.send({ result: "redirect", url: "/route/adminPanel" })
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
+		req.flash("error", "User already exists")
 		return res.status(200).send({
 			result: "redirect",
-			url: "/route/addUser/?err=User already exists",
+			url: "/route/addUser",
 		})
 	}
 })
@@ -185,7 +191,7 @@ router.get("/modify", async (req, res) => {
 	try {
 		if (req.session.admin) {
 			let user = await userModel.find({ _id: req.query.id })
-			res.render("updateUser", { user: user , error: req.query.err })
+			res.render("updateUser", { user: user, error: req.flash("error") })
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
@@ -203,25 +209,32 @@ router.put("/modify", async (req, res) => {
 					email: req.body.email,
 				}
 			)
+			req.flash("message", "User Updated")
 			return res
 				.status(200)
 				.send({ result: "redirect", url: "/route/adminPanel" })
 		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
+		req.flash("error", "User already exists")
 		return res.status(200).send({
 			result: "redirect",
-			url: `/route/modify/?id=${req.body._id}&err=Username already exists!`,
+			url: `/route/modify/?id=${req.body._id}`,
 		})
 	}
 })
 
 router.delete("/modify", async (req, res) => {
 	try {
-		await userModel.deleteOne({ _id: req.body.userId })
-		return res
-			.status(200)
-			.send({ result: "redirect", url: "/route/adminPanel" })
+		if (req.session.admin) {
+			await userModel.deleteOne({ _id: req.body.userId })
+			req.flash("message", "User deleted")
+			return res
+				.status(200)
+				.send({ result: "redirect", url: "/route/adminPanel" })
+		} else {
+			res.status(403).render("adminUnauthorized")
+		}
 	} catch (err) {
 		console.log(err.message)
 	}
