@@ -71,12 +71,14 @@ router.post("/register", async (req, res) => {
 				email: req.body.email,
 			},
 		])
+		req.flash('message',"User added")
 		return res.status(200).send({ result: "redirect", url: "/" })
 	} catch (err) {
 		console.log(err.message)
+		req.flash("error", "User already exists")
 		return res.status(200).send({
 			result: "redirect",
-			url: "/route/register/?err=User already exists!",
+			url: "/route/register",
 		})
 	}
 })

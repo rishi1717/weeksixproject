@@ -14,6 +14,9 @@
 				class="d-flex col-md-8 col-lg-6 h-100 justify-content-center align-items-center"
 			>
 				<div class="card shadow-2-strong p-5 w-100 mt-5 mb-3">
+					<div class="text-center py-2 text-success fw-bold">
+								<%= locals.success?success:"" %>
+							</div>
 					<div class="card-body">
 						<h3 class="mb-4">Sign in</h3>
 						<form action="/route/home" method="post">

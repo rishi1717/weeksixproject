@@ -4,10 +4,13 @@ const express = require("express")
 const session = require("express-session")
 const router = require("./router")
 const connection = require("./model")
+const flash = require('connect-flash')
 
 const app = express()
 
 const port = process.env.port || 3001
+
+app.use(flash())
 
 app.use(express.json())
 
@@ -53,7 +56,10 @@ app.get("/", (req, res) => {
 	try {
 		if (req.query.error) res.status(301)
 		else res.status(200)
-		res.render("userLogin", { error: req.query.error })
+		res.render("userLogin", {
+			error: req.query.error,
+			success: req.flash("message"),
+		})
 	} catch (err) {
 		console.log(err.message)
 	}
