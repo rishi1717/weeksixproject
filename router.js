@@ -17,9 +17,9 @@ router.post("/home", async (req, res) => {
 			)
 			if (hashedPass) {
 				req.session.user = req.body.user
-				res.redirect("home")
-			} else res.redirect("/Invalid")
-		} else res.redirect("/Invalid")
+				res.status(201).redirect("home")
+			} else res.status(401).redirect("/Invalid")
+		} else res.status(401).redirect("/Invalid")
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -30,12 +30,12 @@ router.get("/home", async (req, res) => {
 		if (req.session.user) {
 			const blogs = await blogModel.find({})
 			const len = blogs.length
-			res.status(200).render("home", {
+			res.status(201).render("home", {
 				user: req.session.user,
 				blogs: blogs,
 				len: len,
 			})
-		} else res.status(401).render("unauthorized")
+		} else res.status(403).render("unauthorized")
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -52,6 +52,8 @@ router.get("/logout", (req, res) => {
 
 router.get("/register/:err?", (req, res) => {
 	try {
+		if (req.params.error) res.status(400)
+		else res.status(200)
 		res.render("register", { duplicateError: req.params.err })
 	} catch (err) {
 		console.log(err.message)
@@ -89,9 +91,9 @@ router.post("/adminPanel", async (req, res) => {
 		})
 		if (adminFound) {
 			req.session.admin = req.body.admin
-			res.redirect("/route/adminPanel")
+			res.status(200).redirect("/route/adminPanel")
 		} else {
-			res.redirect("/admin/Invalid")
+			res.status(401).redirect("/admin/Invalid")
 		}
 	} catch (err) {
 		console.log(err.message)
@@ -105,13 +107,13 @@ router.get("/adminPanel", async (req, res) => {
 			let blogs = await blogModel.find()
 			blogNo = blogs.length
 			len = users.length
-			res.render("adminPanel", {
+			res.status(200).render("adminPanel", {
 				admin: req.body.admin,
 				users: users,
 				len: len,
 				blogNo: blogNo,
 			})
-		} else res.render("adminUnauthorized")
+		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -128,14 +130,14 @@ router.get("/search", async (req, res) => {
 			let blogs = await blogModel.find()
 			len = result.length
 			blogNo = blogs.length
-			res.render("adminPanel", {
+			res.status(200).render("adminPanel", {
 				admin: req.body.admin,
 				users: result,
 				len: len,
 				blogNo: blogNo,
 			})
 		} else {
-			res.render("adminUnauthorized")
+			res.status(403).render("adminUnauthorized")
 		}
 	} catch (err) {
 		console.log(err.message)
@@ -145,8 +147,10 @@ router.get("/search", async (req, res) => {
 router.get("/addUser/:err?", (req, res) => {
 	try {
 		if (req.session.admin) {
+			if (req.params.error) res.status(400)
+			else res.status(200)
 			res.render("addUser", { duplicateError: req.params.err })
-		} else res.render("adminUnauthorized")
+		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -167,7 +171,7 @@ router.post("/addUser", async (req, res) => {
 			return res
 				.status(200)
 				.send({ result: "redirect", url: "/route/adminPanel" })
-		} else res.status(401).render("adminUnauthorized")
+		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
 		return res
@@ -184,7 +188,7 @@ router.get("/modify/:id", async (req, res) => {
 		if (req.session.admin) {
 			let user = await userModel.find({ _id: req.params.id })
 			res.render("updateUser", { user: user })
-		} else res.render("adminUnauthorized")
+		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -204,7 +208,7 @@ router.put("/modify", async (req, res) => {
 			return res
 				.status(200)
 				.send({ result: "redirect", url: "/route/adminPanel" })
-		} else res.render("adminUnauthorized")
+		} else res.status(403).render("adminUnauthorized")
 	} catch (err) {
 		console.log(err.message)
 	}

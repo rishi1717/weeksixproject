@@ -41,7 +41,9 @@ app.set("view engine", "ejs")
 
 app.get("/admin/:error?", (req, res) => {
 	try {
-		res.render("adminLogin",{error: req.params.error})
+		if (req.params.error) res.status(301)
+		else res.status(200)
+		res.render("adminLogin", { error: req.params.error })
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -49,7 +51,9 @@ app.get("/admin/:error?", (req, res) => {
 
 app.get("/:error?", (req, res) => {
 	try {
-		res.render("userLogin",{error: req.params.error})
+		if (req.params.error) res.status(301)
+		else res.status(200)
+		res.render("userLogin", { error: req.params.error })
 	} catch (err) {
 		console.log(err.message)
 	}
