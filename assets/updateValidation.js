@@ -79,6 +79,7 @@ $("#submit-form").submit((e) => {
 			data: $("#submit-form").serialize(),
 			method: "put",
 			success: function (response) {
+				alert("User Updated")
 				if (response.result == "redirect") {
 					window.location.replace(response.url)
 				}

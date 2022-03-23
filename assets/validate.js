@@ -103,8 +103,6 @@ $("#submit-form").submit((e) => {
 	let sum = validate.reduce(function (a, b) {
 		return a + b
 	}, 0)
-	console.log("in ajax")
-	console.log(sum)
 	e.preventDefault()
 	if (sum == 5) {
 		sum = 0

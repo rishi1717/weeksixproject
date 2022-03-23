@@ -96,6 +96,7 @@ $("#submit-form").submit((e) => {
 			data: $("#submit-form").serialize(),
 			method: "post",
 			success: function (response) {
+				alert('User added')
 				if (response.result == "redirect") {
 					window.location.replace(response.url)
 				}
