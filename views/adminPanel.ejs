@@ -1,0 +1,75 @@
+<%- include('header') -%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="cover-container d-flex w-100 h-100 mt-5 mx-auto flex-column">
+  <h1 class="display-5 text-light  text-center m-3">Web site Details</h1>
+  <div class="container bg-light text-dark p-5 rounded">
+      <div class="row"> 
+        <div class="col-lg-6">
+          <div class="display-6 text-secondary text-center m-3">Number of users</div>
+          <div class="text-center text-success  display-6"><%=len%></div>
+        </div>
+        <div class="col-lg-6">
+          <div class="display-6 text-secondary  text-center m-3">Number of posts</div>
+          <div class="text-center text-success  display-6"><%=blogNo%></div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+<div class="cover-container d-flex w-100 h-100 mt-5 mx-auto flex-column">
+    <h1 class="display-5 text-center m-3 text-light ">User details</h1>
+    
+    <div class="container bg-light text-dark p-4 rounded">
+      <table class="table table-striped">
+        <form action="/route/search" method="get">
+          <div class="input-group mb-3">
+            <input type="search" class="form-control rounded" placeholder="Search" name="search" />
+            <button type="submit" class="btn btn-outline-primary">search</button>
+          </div>
+        </form>
+        
+        <tr><th>User ID</th><th>User Name</th><th>name</th><th>email</th><th>Update</th><th>Delete</th></tr>
+        <%for(let i =0 ; i<len; i++){ %>
+        <tr><td><%= users[i]._id %></td><td><%= users[i].userName %></td><td><%= users[i].name %></td><td><%= users[i].email %></td>
+          <td class="text-center">
+          <a href="/route/modify/<%= users[i]._id %>" class="btn btn-outline-warning btn-sm">^</a>
+          </td>
+          <td class="text-center">
+            <button value="<%= users[i]._id %>" onclick="deleteUser(value)" class="btn btn-outline-danger btn-sm">X</button>
+          </td>
+        </tr>
+        <% } %>
+      </table>
+
+      <div class="text-center mb-3">
+        <a href="/route/addUser" type="button" class="btn btn-outline-primary">Add a user</a>
+      </div>
+    </div>
+</div>
+
+<script>
+  function deleteUser(id) {
+    let con = confirm("Are you sure?");
+    if(con){
+      const obj = {userId:id}
+			$.ajax({
+				url: "/route/modify",
+        data: obj,
+				method: "DELETE",
+				success: function (response) {
+					if (response.result == "redirect") {
+					window.location.replace(response.url)
+				  }
+				},
+			})
+    }
+		}
+</script>
+
+<%- include('footer') -%>
+
+
+

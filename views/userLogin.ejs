@@ -1,0 +1,78 @@
+<%- include('header') -%>
+<nav class="navbar fixed-top navbar-light bg-light">
+	<div class="container-fluid d-flex">
+		<a class="navbar-brand" href="#">Login</a>
+		<a href="/route/register"
+			><button class="btn btn-primary" type="submit">Register Now</button></a
+		>
+	</div>
+</nav>
+<body>
+	<div class="container mt-5">
+		<div class="row h-100 d-flex justify-content-center">
+			<div
+				class="d-flex col-md-8 col-lg-6 h-100 justify-content-center align-items-center"
+			>
+				<div class="card shadow-2-strong p-5 w-100 mt-5 mb-3">
+					<div class="card-body">
+						<h3 class="mb-4">Sign in</h3>
+						<form action="/route/home" method="post">
+							<div class="mb-4">
+								<label class="form-label formText" for="user"
+									>User Name :
+								</label>
+								<input
+									type="text"
+									id="user"
+									name="user"
+									class="form-control form-control-lg inputText"
+									required
+								/>
+							</div>
+
+							<div class="mb-4">
+								<label class="form-label formText" for="password"
+									>Password :</label
+								>
+								<input
+									type="password"
+									name="password"
+									id="password"
+									class="form-control form-control-lg inputText"
+									required
+								/>
+							</div>
+
+							<div class="w-100 d-flex justify-content-center">
+								<button
+									class="btn btn-primary btn-lg btn-block"
+									type="submit"
+								>
+									Login
+								</button>
+							</div>
+
+							<div class="text-center py-2 text-danger fw-bold">
+								<%= locals.error?error:"" %>
+							</div>
+						</form>
+
+						<div class="mt-5 w-100 d-flex justify-content-center">
+							<div><small>Not a user?</small></div>
+							<a href="/route/register"
+								><button
+									class="btn-sm btn-outline-primary mx-3"
+									type="submit"
+								>
+									Register Now
+								</button></a
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<%- include('footer') -%>

@@ -1,0 +1,52 @@
+<%- include('header') -%>
+<nav class="navbar fixed-top navbar-light bg-light">
+	<div class="container-fluid d-flex">
+		<a class="navbar-brand text-secondary" href="#">The blog world</a>
+	</div>
+</nav>
+<div class="container mt-5 text-center p-5">
+	<div class="row h-100 d-flex justify-content-center">
+		<div
+			class="d-flex col-md-8 col-lg-6 h-100 justify-content-center align-items-center"
+		>
+			<div class="card shadow-2-strong p-5 w-100 mt-5 mb-3">
+				<div class="card-body">
+					<form action="/route/adminPanel" method="post">
+						<div class="mb-3">
+							<label for="exampleInputEmail1" class="form-label"
+								>Admin name:
+							</label>
+							<input
+								type="text"
+								class="form-control"
+								id="admin"
+								name="admin"
+								required
+							/>
+						</div>
+
+						<div class="mb-3">
+							<label for="exampleInputPassword1" class="form-label"
+								>Password:
+							</label>
+							<input
+								type="password"
+								class="form-control"
+								id="password"
+								name="password"
+								required
+							/>
+						</div>
+						<div class="text-center py-2 text-danger fw-bold">
+							<%= locals.error?error:"" %>
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<a href="/" class="btn btn-outline-light">Go to User Login</a>
+</div>
+
+<%- include('footer') -%>

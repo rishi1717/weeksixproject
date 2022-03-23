@@ -1,0 +1,38 @@
+<%- include('header') -%>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <div class="mt-10 modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+          </div>
+          <div class="modal-body">
+            <form id="submit-form" action="">
+                <div class="text-center py-2 text-danger"><%= locals.duplicateError?duplicateError:"" %></div>
+              <div class="mb-3">
+                <label for="user" class="col-form-label">User name:</label>
+                <input type="text" class="form-control" id="user" name="user" required>
+                <p id="uNameError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                <label for="name" class="col-form-label">name:</label>
+                <input type="text" class="form-control" id="name" name="name" required></input>
+                <p id="nameError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="col-form-label">Email:</label>
+                <input type="text" class="form-control" id="email" name="email" required></input>
+                <p id="emailError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="col-form-label">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required></input>
+                <p id="passwordError" class="text-danger"></p>
+              </div>
+              <button id="submit" type="submit" class="btn btn-primary">Add user</button>
+            </form>
+          </div>
+        </div>
+      </div>
+  <script src="/assets/newValidation.js"></script>
+      
+  <%- include('footer') -%>

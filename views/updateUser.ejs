@@ -1,0 +1,40 @@
+<%- include('header') -%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <div class="mt-10">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+        </div>
+        <div class="modal-body">
+          <form id="submit-form" action="">
+              <p id="duplicateError"></p>
+            <div class="mb-2">
+              <label for="_id" class="col-form-label">User Id:</label>
+              <input type="text" class="form-control" id="_id" name="_id" value="<%= user[0]._id %>" readonly>
+            </div>
+            <div class="mb-2">
+              <label for="user" class="col-form-label">User name:</label>
+              <input type="text" class="form-control" id="user" name="user" value="<%= user[0].userName %>" required>
+              <p id="uNameError"></p>
+            </div>
+            <div class="mb-2">
+              <label for="name" class="col-form-label">name:</label>
+              <input type="text" class="form-control" id="name" name="name" value="<%= user[0].name %>" required></input>
+              <p id="nameError"></p>
+            </div>
+            <div class="mb-2">
+              <label for="email" class="col-form-label">Email:</label>
+              <input type="text" class="form-control" id="email" name="email" value="<%= user[0].email %>" required></input>
+              <p id="emailError"></p>
+            </div>
+            <button type="submit" id="submit" class="btn btn-primary">Update user</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/updateValidation.js"></script>
+  <%- include('footer') -%>

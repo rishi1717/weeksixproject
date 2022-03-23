@@ -1,0 +1,40 @@
+<%- include('header') -%>
+<div class="container">
+
+  <div id="home" class="text-light intro p-5 bg-light">
+    <div class="display-4 text-center text-warning">Hello, <%=user%>!</div>
+    <div class="text-secondary display-4 font-weight-bold text-center">Welcome to the blog world</div>
+    <div class="text-secondary h5 pt-2 w-75 mx-auto text-center">Blogs, Whole around the world!!</div>
+  </div>
+
+  <div id="gallery1" class="container-fluid pt-5 mt-10  text-center">
+    <h3 class="text-dark bgtext3">OUR <b>BLOG</b></h3>
+    <h4 class="text-warning">-----</h4>
+    
+    <div class="row">
+    <% for(let i=0;i<len;i++){ %>  
+
+      <div class="card col-lg-12">
+          <img class="card-img-top" src="">
+          <div class="card-body">
+              <h4 class="card-title text-dark text-center pdlr5">
+                <%= blogs[i].heading %></h4>
+              <p class="card-text text-dark pdlr5">
+                <%= blogs[i].content %></h4>
+                <!-- <h5 class="text-dark text-muted pt-5 pdlr5"><b>SEPTEMBER 26, 2016</b></h5> -->
+                <h6 class="text-warning pdlr5"><%= blogs[i].author %></h4></h6>
+               </p>
+          </div>
+      </div>
+
+    <% } %>
+  </div>
+
+  </div>
+
+
+</div>
+
+
+
+<%- include('footer') -%>
