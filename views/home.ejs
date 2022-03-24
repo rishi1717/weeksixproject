@@ -42,10 +42,11 @@
           </div>
 
           <% } %>
+            <a href="/route/userblogs"><button class="btn btn-light text-secondary font-weight-bold mt-2">My blogs</button></a>
 
-            <h3 class="text-light bgtext3 mt-10">Your <b>BLOG</b></h3>
+            <h3 class="text-light bgtext3 mt-5">Add <b>BLOG</b></h3>
             <h4 class="text-warning">-----</h4>
-            <section class="blogForm bg-light p-5 mt-5">
+            <section id="addBlog" class="blogForm bg-light p-5 mt-5">
               <form action="/route/blog" method="post">
                 <div class="mb-3 px-5">
                   <label for="heading " class="form-label text-secondary font-weight-bold">Heading:</label>

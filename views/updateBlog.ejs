@@ -1,0 +1,47 @@
+<%- include('header') -%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <div id="gallery1" class="container-fluid text-center">
+        <div class="row p-5">
+            <h3 class="text-light bgtext3 mt-5">Update <b>BLOG</b></h3>
+            <h4 class="text-warning">-----</h4>
+            <section class="blogForm bg-light p-3 mt-5">
+                <form id="submit-form" method="">
+                    <div class="mb-3 px-5">
+                        <label for="heading " class="form-label text-secondary font-weight-bold">Heading:</label>
+                        <input type="text" class="form-control" id="heading" name="heading"
+                            value="<%= blog[0].heading %>" required>
+                    </div>
+                    <div class="mb-3 px-5">
+                        <label for="content" class="form-label text-secondary font-weight-bold">Content:</label>
+                        <textarea type="textfield" class="form-control" rows="5" id="content" name="content"
+                            required><%= blog[0].content %></textarea>
+                    </div>
+                    <input type="hidden" name="user" value="<%= blog[0].author %>" />
+                    <input type="hidden" name="_id" value="<%= blog[0]._id %>" />
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+
+            </section>
+        </div>
+    </div>
+
+    <script>
+        $("#submit-form").submit((e) => {
+            e.preventDefault()
+            $.ajax({
+                url: "/route/blog",
+                data: $("#submit-form").serialize(),
+                method: "put",
+                success: function (response) {
+                    if (response.result == "redirect") {
+                        window.location.replace(response.url)
+                    }
+                },
+                error: function (err) {
+                    console.log(err.message)
+                },
+            })
+        })
+
+    </script>
+    <%- include('footer') -%>

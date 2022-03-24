@@ -1,0 +1,69 @@
+<%- include('header') -%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<% Success = locals.message?message:"" %>
+        <% if(Success.length>0) {%>
+          <div class="text-center d-flex align-items-center justify-content-center mt-10">
+            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+              <%= Success %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+					
+				<% } %>
+
+    <div id="gallery1" class="container-fluid p-5 mt-10  text-center">
+        <h3 class="text-light bgtext3">My <b>BLOGS</b></h3>
+        <h4 class="text-warning">-----</h4>
+
+        <% for(let i=0;i<blogs.length;i++){ %>
+
+            <div class="card col-lg-12">
+                <img class="card-img-top" src="">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <a href="/route/blog/?id=<%= blogs[i]._id %>" class="btn btn-outline-warning btn-sm">Edit</a>
+                        <h4 class="card-title text-dark text-center pdlr5">
+                            <%= blogs[i].heading %>
+                        </h4>
+                        <button value="<%= blogs[i]._id %>" onclick="deleteBlog(value)"
+                            class="btn btn-outline-danger btn-sm">Delete</button>
+                    </div>
+
+
+                    <p class="card-text text-dark pdlr5">
+                        <%= blogs[i].content %>
+                            </h4>
+                            <h6 class="text-warning pdlr5">
+                                <%= blogs[i].author %>
+                                    </h4>
+                            </h6>
+                    </p>
+                </div>
+            </div>
+            <% } %>
+            <a href="/route/home/#addBlog"><button class="btn btn-light text-secondary font-weight-bold mt-2">Add Blog</button></a>
+            <a href="/route/home"><button class="btn btn-light text-secondary font-weight-bold mt-2">Home</button></a>
+    </div>
+
+    <script>
+        function deleteBlog(id) {
+            let con = confirm("Are you sure?")
+            if (con) {
+                const obj = { blogId: id }
+                $.ajax({
+                    url: "/route/blog",
+                    data: obj,
+                    method: "DELETE",
+                    success: function (response) {
+                        if (response.result == "redirect") {
+                            window.location.replace(response.url)
+                        }
+                    },
+                })
+            }
+        }
+    </script>
+
+
+    <%- include('footer') -%>

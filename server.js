@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid")
 const express = require("express")
 const session = require("express-session")
 const router = require("./router")
+const routeAdmin = require("./routeAdmin")
 const connection = require("./model")
 const flash = require('connect-flash')
 
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 app.use("/assets", express.static(path.join(__dirname, "assets")))
 
 app.use("/route", router)
+app.use("/route", routeAdmin)
 
 app.set("view engine", "ejs")
 
