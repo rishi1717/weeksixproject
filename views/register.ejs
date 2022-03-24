@@ -19,9 +19,20 @@
 						<h3 class="mb-4">Register</h3>
 
 						<form id="submit-form" action="">
-							<div class="text-center py-2 text-danger">
+							<% if(duplicateError.length>0) {%>
+							<div
+								class="alert alert-warning alert-dismissible fade show"
+								role="alert"
+							>
 								<%= locals.duplicateError?duplicateError:"" %>
+								<button
+									type="button"
+									class="btn-close"
+									data-bs-dismiss="alert"
+									aria-label="Close"
+								></button>
 							</div>
+							<% } %>
 
 							<div class="mb-4">
 								<label class="form-label formText" for="user"
@@ -34,7 +45,10 @@
 									class="form-control form-control-lg inputText"
 									required
 								/>
-								<div id="uNameError" class="text-center py-2 text-danger">
+								<div
+									id="uNameError"
+									class="text-center py-2 text-danger"
+								>
 									<%= locals.userError?userError:"" %>
 								</div>
 							</div>
@@ -50,7 +64,10 @@
 									class="form-control form-control-lg inputText"
 									required
 								/>
-								<div id="nameError" class="text-center py-2 text-danger">
+								<div
+									id="nameError"
+									class="text-center py-2 text-danger"
+								>
 									<%= locals.nameError?nameError:"" %>
 								</div>
 							</div>
@@ -65,7 +82,10 @@
 									name="email"
 									class="form-control form-control-lg inputText"
 								/>
-								<div id="emailError" class="text-center py-2 text-danger">
+								<div
+									id="emailError"
+									class="text-center py-2 text-danger"
+								>
 									<%= locals.emailError?emailError:"" %>
 								</div>
 							</div>
@@ -81,7 +101,10 @@
 									class="form-control form-control-lg inputText"
 									required
 								/>
-								<div id="passwordError" class="text-center py-2 text-danger">
+								<div
+									id="passwordError"
+									class="text-center py-2 text-danger"
+								>
 									<%= locals.passError?passError:"" %>
 								</div>
 							</div>
@@ -97,7 +120,10 @@
 									class="form-control form-control-lg inputText"
 									required
 								/>
-								<div id="cPasswordError" class="text-center py-2 text-danger">
+								<div
+									id="cPasswordError"
+									class="text-center py-2 text-danger"
+								>
 									<%= locals.CPasserror?CPasserror:"" %>
 								</div>
 							</div>
@@ -105,7 +131,8 @@
 							<div class="w-100 d-flex justify-content-center">
 								<button
 									class="btn btn-primary btn-lg btn-block"
-									type="submit" id="submit"
+									type="submit"
+									id="submit"
 								>
 									Register
 								</button>

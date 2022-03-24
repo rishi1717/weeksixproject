@@ -1,7 +1,13 @@
 <%- include('header') -%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <div class="cover-container d-flex w-100 h-100 mt-5 mx-auto flex-column">
-  <div class="text-center pt-4 text-success"><%= success %></div>
+        <% if(success.length>0) {%>
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= locals.success?success:"" %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+				<% } %>
+  
   <h1 class="display-5 text-light  text-center m-3">Web site Details</h1>
   <div class="container bg-light text-dark p-5 rounded">
       <div class="row"> 
