@@ -9,7 +9,20 @@
         </div>
         <div class="modal-body">
           <form id="submit-form" action="">
-              <p class="text-center py-2 text-danger"><%= error %></p>
+              <% if(error.length>0) {%>
+							<div
+								class="alert alert-warning alert-dismissible fade show"
+								role="alert"
+							>
+								<%= locals.error?error:"" %>
+								<button
+									type="button"
+									class="btn-close"
+									data-bs-dismiss="alert"
+									aria-label="Close"
+								></button>
+							</div>
+							<% } %>
             <div class="mb-2">
               <label for="_id" class="col-form-label">User Id:</label>
               <input type="text" class="form-control" id="_id" name="_id" value="<%= user[0]._id %>" readonly>

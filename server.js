@@ -58,7 +58,7 @@ app.get("/", (req, res) => {
 		if (req.query.error) res.status(301)
 		else res.status(200)
 		res.render("userLogin", {
-			error: req.query.error,
+			error: req.flash("error"),
 			success: req.flash("message"),
 		})
 	} catch (err) {

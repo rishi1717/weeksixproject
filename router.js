@@ -18,8 +18,14 @@ router.post("/home", async (req, res) => {
 			if (hashedPass) {
 				req.session.user = req.body.user
 				res.status(201).redirect("home")
-			} else res.status(401).redirect("/?error=Invalid")
-		} else res.status(401).redirect("/?error=Invalid")
+			} else{
+				req.flash("error", "Invalid credentials")
+				res.status(401).redirect("back")
+			} 
+		} else{
+			req.flash("error", "Invalid credentials")
+			res.status(401).redirect("back")
+		} 
 	} catch (err) {
 		console.log(err.message)
 	}
@@ -34,6 +40,7 @@ router.get("/home", async (req, res) => {
 				user: req.session.user,
 				blogs: blogs,
 				len: len,
+				message: req.flash("message"),
 			})
 		} else res.status(403).render("unauthorized")
 	} catch (err) {
@@ -237,6 +244,21 @@ router.delete("/modify", async (req, res) => {
 		}
 	} catch (err) {
 		console.log(err.message)
+	}
+})
+
+router.post('/blog',async (req,res)=>{
+	try{
+		if(req.session.user){
+			console.log(req.body);
+			await blogModel.insertMany([{heading:req.body.heading, content: req.body.content, author: req.body.user}])
+			req.flash("message", "Blog added")
+			res.status(200).redirect('/route/home')
+		}else{
+			res.status(403).render("unauthorized")
+		}
+	}catch(err){
+		console.log(err.message);
 	}
 })
 
