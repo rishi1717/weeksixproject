@@ -75,7 +75,7 @@ $("#submit-form").submit((e) => {
 		sum = 0
 		// validate = [0, 0, 0]
 		$.ajax({
-			url: "/route/modify",
+			url: "/route/user",
 			data: $("#submit-form").serialize(),
 			method: "put",
 			success: function (response) {

@@ -83,7 +83,7 @@ router.get("/addUser", (req, res) => {
 	}
 })
 
-router.post("/addUser", async (req, res) => {
+router.post("/user", async (req, res) => {
 	try {
 		if (req.session.admin) {
 			let hashedPass = await bcrypt.hash(req.body.password, 12)
@@ -110,7 +110,7 @@ router.post("/addUser", async (req, res) => {
 	}
 })
 
-router.get("/modify", async (req, res) => {
+router.get("/user", async (req, res) => {
 	try {
 		if (req.session.admin) {
 			let user = await userModel.find({ _id: req.query.id })
@@ -121,7 +121,7 @@ router.get("/modify", async (req, res) => {
 	}
 })
 
-router.put("/modify", async (req, res) => {
+router.put("/user", async (req, res) => {
 	try {
 		if (req.session.admin) {
 			await userModel.updateOne(
@@ -147,7 +147,7 @@ router.put("/modify", async (req, res) => {
 	}
 })
 
-router.delete("/modify", async (req, res) => {
+router.delete("/user", async (req, res) => {
 	try {
 		if (req.session.admin) {
 			await userModel.deleteOne({ _id: req.body.userId })
